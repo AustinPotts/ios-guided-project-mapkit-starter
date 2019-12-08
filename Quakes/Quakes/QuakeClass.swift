@@ -14,6 +14,22 @@ import Foundation
 
 class Quake: NSObject, Decodable {
     
+    let magnitude: Double
     
+    enum QuakeCodingKeys: String, CodingKey {
+        case magnitude = "mag"
+        case properties
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: QuakeCodingKeys.self)
+        
+        let properties = try  container.nestedContainer(keyedBy: QuakeCodingKeys.self, forKey: .properties)
+        
+        self.magnitude = try properties.decode(Double.self, forKey: .magnitude)
+        
+        super.init()
+    }
     
 }
