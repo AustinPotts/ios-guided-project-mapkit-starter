@@ -21,6 +21,9 @@ class QuakesTests: XCTestCase {
        // let quake = Quake()
         
         let decoder = JSONDecoder()
+        let date = Date(timeIntervalSince1970: 1388620296020)
+        
+        
         
         do {
             let quake = try decoder.decode(Quake.self, from: quakeData)
@@ -28,6 +31,10 @@ class QuakesTests: XCTestCase {
           //  XCTAssertEqual(1.29, quake.magnitude) 1.29 == 1.28888889 FAILS!
             
             XCTAssertEqual(1.29, quake.magnitude, accuracy: 0.001)
+            XCTAssertEqual("10km SSW of Idyllwild, CA", quake.place)
+            XCTAssertEqual(date, quake.time)
+            XCTAssertEqual(-116.7776667, quake.longitude, accuracy: 0.001)
+            XCTAssertEqual(33.663333299999998, quake.latitude, accuracy: 0.001)
         } catch {
             XCTFail("Error decoding \(error) ")
         }
