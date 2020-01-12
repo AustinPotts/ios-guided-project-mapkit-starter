@@ -21,6 +21,7 @@ class QuakesTests: XCTestCase {
        // let quake = Quake()
         
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .millisecondsSince1970
         let date = Date(timeIntervalSince1970: 1388620296020)
         
         

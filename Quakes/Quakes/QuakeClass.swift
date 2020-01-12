@@ -27,6 +27,8 @@ class Quake: NSObject, Decodable {
         case time
         case logitutde
         case latitude
+        case geometry
+        case coordinates
     }
     
     required init(from decoder: Decoder) throws {
@@ -35,15 +37,19 @@ class Quake: NSObject, Decodable {
         
         let properties = try  container.nestedContainer(keyedBy: QuakeCodingKeys.self, forKey: .properties)
         
+        let geometry = try container.nestedContainer(keyedBy: QuakeCodingKeys.self, forKey: .geometry)
+        
+        var coordinates = try geometry.nestedUnkeyedContainer(forKey: .coordinates)
+        
         self.magnitude = try properties.decode(Double.self, forKey: .magnitude)
         
         self.place = try properties.decode(String.self, forKey: .place)
         
         self.time = try properties.decode(Date.self, forKey: .time)
         
-        self.longitude = try properties.decode(Double.self, forKey: .logitutde)
         
-        self.latitude = try properties.decode(Double.self, forKey: .latitude)
+        self.longitude = try coordinates.decode(Double.self)
+        self.latitude = try coordinates.decode(Double.self)
         
         super.init()
     }
